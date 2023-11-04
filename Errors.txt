@@ -1,0 +1,1 @@
+Amazon EKS Nodegroups was unable to assume the service-linked role in your account

@@ -1,0 +1,1 @@
+kubectl get events --> to know about event happening while creating the depolyments
