@@ -36,8 +36,8 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  - name: mysql-db-password
-                    key: db-password
+                  name: mysql-db-password
+                  key: db-password
           livenessProbe:
             exec:
               command:
