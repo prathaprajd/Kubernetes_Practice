@@ -19,7 +19,7 @@ spec:
   type: Containers
 ---
 apiVersion: v1
-kind: ResoruceQuota
+kind: ResourceQuota
 metadata:
   name:
   namespace: dev3
