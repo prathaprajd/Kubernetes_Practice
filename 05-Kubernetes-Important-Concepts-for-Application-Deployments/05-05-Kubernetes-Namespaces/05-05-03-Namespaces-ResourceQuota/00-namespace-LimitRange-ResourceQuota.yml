@@ -9,14 +9,14 @@ metadata:
   name: default-cpu-mem-limit-range
   namespace: dev3
 spec:
-  Limits:
+  limits:
     - default:
         cpu: "512Mi"
         memory: "500m"
-    - defaultRequest:
+      defaultRequest:
         cpu: "256Mi"
         memory: "300m"
-  type: Containers
+      type: Containers
 ---
 apiVersion: v1
 kind: ResourceQuota
