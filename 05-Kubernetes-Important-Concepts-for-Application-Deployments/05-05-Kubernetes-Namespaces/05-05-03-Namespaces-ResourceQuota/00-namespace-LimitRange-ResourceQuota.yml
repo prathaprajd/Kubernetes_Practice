@@ -16,7 +16,7 @@ spec:
       defaultRequest:
         cpu: "256Mi"
         memory: "300m"
-      type: Containers
+      type: Container
 ---
 apiVersion: v1
 kind: ResourceQuota
