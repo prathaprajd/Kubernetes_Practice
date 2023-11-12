@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name:
+  name: ns-resource-quota
   namespace: dev3
 spec:
   hard:
