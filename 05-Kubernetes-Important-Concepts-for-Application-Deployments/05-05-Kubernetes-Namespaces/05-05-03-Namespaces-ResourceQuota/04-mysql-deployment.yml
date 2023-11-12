@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        app: msql
+        app: mysql
     spec:
       containers:
         - name: mysql
