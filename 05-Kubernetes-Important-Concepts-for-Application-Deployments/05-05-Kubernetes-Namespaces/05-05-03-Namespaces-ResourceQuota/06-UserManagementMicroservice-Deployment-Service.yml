@@ -47,7 +47,8 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
           readinessProbe:
-            httpGet: /usermgmt/health-status
+            httpGet: 
+            path: /usermgmt/health-status
             port: 8095
             initialDelaySeconds: 60
             periodSeconds: 10
