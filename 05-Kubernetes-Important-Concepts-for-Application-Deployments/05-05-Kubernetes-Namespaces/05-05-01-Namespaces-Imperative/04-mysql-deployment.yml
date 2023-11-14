@@ -12,28 +12,29 @@ spec:
   template:
     metadata:
       labels:
-        app: msql
-    containers:
-      - name: mysql
-        image: mysql:5.6
-        ports:
-          - containerPort: 3306
-            name: mysql
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-db-password
-                key: db-password
-        volumeMounts:
-          - name: mysql-persistent-storage
-            mountPath: /var/lib/mysql
-          - name: usermanagment-dbcreation-script
-            mountPath: /docker-entrypoint-initdb.db          
-    volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: ebs-mysql-pv-claim
-      - name: usermanagment-dbcreation-script
-        configMap:
-          name: usermanagement-dbcreation-script
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.6
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-db-password
+                  key: db-password
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: usermanagment-dbcreation-script
+              mountPath: /docker-entrypoint-initdb.db          
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: ebs-mysql-pv-claim
+        - name: usermanagment-dbcreation-script
+          configMap:
+            name: usermanagment-dbcreation-script
