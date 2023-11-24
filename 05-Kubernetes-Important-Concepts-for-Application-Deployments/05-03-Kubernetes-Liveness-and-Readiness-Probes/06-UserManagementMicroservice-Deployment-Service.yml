@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: usermgmt-microservice
@@ -17,7 +17,7 @@ spec:
       initContainers:
       - name: init-db
         image: busybox:1.31
-        command: ['sh','-c','echo -e "checking for the availability of MySQL server deployment";while ! nc -z mysql 3306;do sleep 1;printf "-";done;echo -e ">> MYSQL DB server has started";']
+        command: ['sh', '-c', 'echo -e "checking for the availability of MySQL server deployment";while ! nc -z mysql 3306;do sleep 1;printf "-";done;echo -e ">> MYSQL DB server has started";']
       containers:
         - name: usermgmt-restapp
           image: stacksimplify/kube-usermanagement-microservice:1.0.0
