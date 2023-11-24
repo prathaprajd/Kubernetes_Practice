@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: mysql
-    template:
+    spec:
       containers:
         - name: mysql
           image: mysql:5.6
@@ -23,7 +23,7 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
-                secretKeyref:
+                secretKeyRef:
                   name: mysql-db-password
                   key: db-password
           volumeMounts:
@@ -32,7 +32,7 @@ spec:
             - name: usermanagement-dbcreation-script
               mountPath: /docker-entrypoint-initdb.d
       volumes:
-        - name: mysql-peristent-storage
+        - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: ebs-mysql-pv-claim
         - name: usermanagement-dbcreation-script

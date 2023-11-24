@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: usermgmt-restapp
-    template:
+    spec:
       containers:
         - name: usermgmt-restapp
           image: stacksimplify/kube-usermanagement-microservice:1.0.0
