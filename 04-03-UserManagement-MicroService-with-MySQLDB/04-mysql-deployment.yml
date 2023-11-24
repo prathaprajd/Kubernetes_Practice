@@ -3,15 +3,15 @@ kind: Deployment
 metadata:
   name: mysql
 spec:
-  relicas: 1
+  replicas: 1
   selector:
-    matchLables:
+    matchLabels:
       app: mysql
   strategy:
     type: Recreate
   template:
     metadata:
-      lables:
+      labels:
         app: mysql
     spec:
       containers:
