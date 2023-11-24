@@ -30,7 +30,7 @@ spec:
              path: /docker-entrypoint-initdb.d
       volumes:
         - name: mysql-persistent-storage
-          presistentVolumeClaim:
+          persistentVolumeClaim:
             claimName: ebs-mysql-pv-claim        
         - name: usermanagement-dbcreation-script
           configMap:
