@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
- name: 
+ name: ebs-mysql-pv-claim
 spec:
   accessModes:
     - ReadWriteOnce

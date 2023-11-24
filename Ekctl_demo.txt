@@ -37,3 +37,10 @@ to remove ssh open key permission
 
 icacls .\kube-demo.pem /inheritance:r
 icacls.exe .\kube-demo.pem /GRANT:R "$($env:USERNAME):(R)"
+
+
+-----------------------------
+
+1.  Create cluster and Nodegroup
+2.  Amazon_EBS_CSI_Driver --> Add policy to newly created roles in IAM
+3. Install CSI driver using command --> kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"

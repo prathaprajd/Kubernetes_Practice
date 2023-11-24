@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mysql
 spec:
-  relicas: 3
+  relicas: 1
   selector:
     matchLables:
       app: mysql
@@ -31,5 +31,8 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           presistentVolumeClaim:
-            claimName: ebs-mysql-pv-claim
+            claimName: ebs-mysql-pv-claim        
+        - name: usermanagement-dbcreation-script
+          configMap:
+            name: usermanagement-dbcreation-script
             
