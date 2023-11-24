@@ -10,3 +10,10 @@ openssl genrsa -out prathapsite.key 2048
 openssl rsa -in prathapsite.key -pubout -out prathapsite_pub.key
 openssl req -new -key prathapsite.key -out prathapsite.csr
 openssl x509 -in prathapsite.csr -out prathapsite.crt -req -signkey prathapsite.key -days 365
+
+installing docker in red hat based linux
+----------------------------------------
+sudo dnf config-manager \
+    --add-repo \
+    https://download.docker.com/linux/fedora/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
