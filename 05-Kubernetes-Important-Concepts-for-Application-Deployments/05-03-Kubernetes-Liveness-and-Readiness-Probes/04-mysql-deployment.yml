@@ -5,7 +5,7 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabel:
+    matchLabels:
       app: mysql
   strategy:
     type: Recreate
@@ -13,27 +13,28 @@ spec:
     metadata:
       labels:
         app: mysql
-    containers:
-      - name: mysql
-        image:  mysql:5.6
-        ports:
-          containerPort: 3306
-          name: mysql
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secrectKeyRef:
-                name: mysql-db-password
-                key: db-password
-        volumeMounts:
-          - name: mysql-persistent-storage
-            mountPath: /var/lib/mysql
-          - name: usermanagement-dbcreation-script
-            mountPath: /docker-entrypoint-initdb.d
-    volumes:
-      - name: mysql-persistent-storage
-        persistentStorageClaim:
-          claimName: ebs-mysql-pv-claim
-      - name: usermanagement-dbcreation-script
-        configMap:
-          name: usermanagement-dbcreation-script
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.6
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-db-password
+                  key: db-password
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: usermanagement-dbcreation-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: ebs-mysql-pv-claim
+        - name: usermanagement-dbcreation-script
+          configMap:
+            name: usermanagement-dbcreation-script
