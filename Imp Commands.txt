@@ -1,1 +1,10 @@
 kubectl get events --> to know about event happening while creating the depolyments
+
+
+
+generating self signed certificate
+
+openssl genrsa -out prathapsite.key 2048
+openssl rsa -in prathapsite.key -pubout -out prathapsite_pub.key
+openssl req -new -key prathapsite.key -out prathapsite.csr
+openssl x509 -in prathapsite.csr -out prathapsite.crt -req -signkey prathapsite.key -days 365
