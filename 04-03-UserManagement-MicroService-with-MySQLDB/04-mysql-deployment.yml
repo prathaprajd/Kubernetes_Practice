@@ -25,14 +25,13 @@ spec:
               name: mysql
           volumeMounts:
            - name: mysql-persistent-storage
-             path: /var/lib/mysql
+             mountPath: /var/lib/mysql
            - name: usermanagement-dbcreation-script
-             path: /docker-entrypoint-initdb.d
+             mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: ebs-mysql-pv-claim        
+            claimName: ebs-mysql-pv-claim       
         - name: usermanagement-dbcreation-script
           configMap:
             name: usermanagement-dbcreation-script
-            
