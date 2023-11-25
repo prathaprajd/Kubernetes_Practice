@@ -3,10 +3,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: ebs-mysql-pv-claim
   namespace: dev3
-spec:
+spec: 
   accessModes:
     - ReadWriteOnce
   storageClassName: ebs-sc
-  resources:
+  resources: 
     requests:
       storage: 4Gi
