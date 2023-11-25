@@ -1,7 +1,7 @@
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: mysql
 spec:
   type: ExternalName
-  externalName: usermgmtdb.cxojydmxwly6.us-east-1.rds.amazonaws.com
+  externalName: usermgmtdb.c447fu2ivttg.ap-southeast-1.rds.amazonaws.com  
