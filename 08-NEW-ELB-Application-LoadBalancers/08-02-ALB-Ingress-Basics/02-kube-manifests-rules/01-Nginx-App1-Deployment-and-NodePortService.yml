@@ -10,8 +10,9 @@ spec:
     matchLabels:
       app: app1-nginx
   template:
-    labels:
-      app: app1-nginx
+    metadata:
+      labels:
+        app: app1-nginx
     spec:
       containers:
         - name: app1-nginx
