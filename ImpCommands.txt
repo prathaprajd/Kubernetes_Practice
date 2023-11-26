@@ -4,6 +4,10 @@ Eksctl work on another computer
  aws eks update-kubeconfig --name eksdemo1 --region ap-southeast-1
  eksctl utils write-kubeconfig --cluster=
 
+eksctl get iamserviceaccount --cluster eksdemo1
+ kubectl get sa -n kube-system
+ kubectl describe sa aws-load-balancer-controller -n kube-system
+
 generating self signed certificate
 
 openssl genrsa -out prathapsite.key 2048
