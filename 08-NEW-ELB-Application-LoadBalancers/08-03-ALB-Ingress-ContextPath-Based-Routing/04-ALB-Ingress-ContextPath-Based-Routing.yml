@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-cpr-demo
   annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: cpr-ingress
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
@@ -12,7 +13,7 @@ metadata:
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'  
 spec:
-  ingressClassName: cpr-ingress
+  ingressClassName: my-aws-ingress-class
   rules:
     - http:
         paths:
