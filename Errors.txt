@@ -2,5 +2,9 @@ Amazon EKS Nodegroups was unable to assume the service-linked role in your accou
 
 Resource handler returned message: "[Issue(Code=AsgInstanceLaunchFailures, Message=You've reached your quota for maximum Fleet Requests for this account. Launching EC2 instance failed., ResourceIds=[eks-eksdemo1-ng-public1-44c5cdea-85f5-cde7-6760-3c5f559c4c1f])] (Service: null, Status Code: 0, Request ID: null)" (RequestToken: 411bb72d-a6cc-9bd1-d901-128841ce0f2c, HandlerErrorCode: GeneralServiceException)
 
-
+0/1 nodes are available: 1 Too many pods. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.
  pod/usermgmt-microservice-6cb448c6fc-qz29m          0/1     CrashLoopBackOff   2 (23s ago)
+
+ FailedBuildModel  82s (x16 over 4m8s)  ingress  Failed build model due to ingress: default/eks-devops-ingress-service: prefix path shouldn't contain wildcards: /
+
+ ailed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "3652f2078d40b5cec6f53ac92774848e5e4b5a92f71c8ab34d0ac08fa13c4592": plugin type="aws-cni" name="aws-cni" failed (add): add cmd: failed to assign an IP address to container
