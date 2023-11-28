@@ -20,7 +20,7 @@ metadata:
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'   
     ## SSL Settings
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:701162217244:certificate/6298a6a9-5db5-4ac8-82af-d6d955fd5ed7
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:701162217244:certificate/ce055a98-d1e1-4bf2-a55d-d8760f28d979
     #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01 #Optional (Picks default if not used)    
     # SSL Redirect Setting
     alb.ingress.kubernetes.io/ssl-redirect: '443'      

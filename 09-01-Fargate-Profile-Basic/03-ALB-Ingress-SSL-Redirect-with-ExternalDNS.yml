@@ -14,9 +14,9 @@ metadata:
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:180789647333:certificate/d86de939-8ffd-410f-adce-0ce1f5be6e0d
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:701162217244:certificate/a8f40e8b-2c5c-4df3-b396-79fc61479c8e
     alb.ingress.kubernetes.io/ssl-redirect: '443'
-    external-dns.alpha.kubernetes.io/hostname: fpdev101.stacksimplify.com
+    external-dns.alpha.kubernetes.io/hostname: fpdev101.prathapsite.live
     alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:

@@ -15,7 +15,7 @@ spec:
         app: app3-nginx
     spec:
       containers:
-        - name: app2-nginx
+        - name: app3-nginx
           image: stacksimplify/kubenginx:1.0.0
           ports:
             - containerPort: 80
