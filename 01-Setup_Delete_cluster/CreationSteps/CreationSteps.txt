@@ -1,0 +1,108 @@
+1.  Create cluster and Nodegroup
+    Public Cluster:
+
+    eksctl create nodegroup --cluster=eksdemo1 \
+                       --region=ap-southeast-1 \
+                       --name=eksdemo1-ng-public1 \
+                       --node-type=t3.small \
+                       --nodes=1 \
+                       --nodes-min=1 \
+                       --nodes-max=2 \
+                       --node-volume-size=20 \
+                       --ssh-access \
+                       --ssh-public-key=kube-demo \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access 
+
+eksctl create nodegroup --cluster=eksdemo1 --region=ap-southeast-1 --name=eksdemo1-ng-public1 --node-type=t3.small --nodes=2 --nodes-min=2 --nodes-max=3 --node-volume-size=20 --ssh-access --ssh-public-key=kube-demo --managed --asg-access --external-dns-access --full-ecr-access --appmesh-access --alb-ingress-access
+
+private Cluster:
+
+    # Create EKS NodeGroup in VPC Private Subnets (Section-07-01)
+eksctl create nodegroup --cluster=eksdemo1 \
+                        --region=ap-southeast-1 \
+                        --name=eksdemo1-ng-private1 \
+                        --node-type=t3.small \
+                        --nodes-min=1 \
+                        --nodes-max=3 \
+                        --node-volume-size=20 \
+                        --ssh-access \
+                        --ssh-public-key=kube-demo \
+                        --managed \
+                        --asg-access \
+                        --external-dns-access \
+                        --full-ecr-access \
+                        --appmesh-access \
+                        --alb-ingress-access \
+                        --node-private-networking     
+						
+eksctl create nodegroup --cluster=eksdemo1 --region=ap-southeast-1 --name=eksdemo1-ng-private1 --node-type=t3.small --nodes-min=1 --nodes-max=3 --node-volume-size=20 --ssh-access --ssh-public-key=kube-demo --managed --asg-access --external-dns-access --full-ecr-access --appmesh-access --alb-ingress-access --node-private-networking
+
+used for alb
+--------------
+eksctl utils associate-iam-oidc-provider \
+    --region ap-southeast-1 \
+    --cluster eksdemo1 \
+    --approve
+
+2.  Amazon_EBS_CSI_Driver --> Add policy to newly created roles in IAM (Amazon_EBS_CSI_Driver.json)
+
+    kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+    kubectl get pods -n kube-system
+
+3.  optional(latest policy for aws-load-balancer-controller ---> 
+
+    curl -o iam_policy_latest.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+
+    aws iam create-policy \
+        --policy-name AWSLoadBalancerControllerIAMPolicy \
+        --policy-document file://iam_policy_latest.json
+
+    eksctl create iamserviceaccount \
+        --cluster=eksdemo1 \
+        --namespace=kube-system \
+        --name=aws-load-balancer-controller \ 
+        --attach-policy-arn=arn:aws:iam::701162217244:policy/AWSLoadBalancerControllerIAMPolicy \
+        --override-existing-serviceaccounts \
+        --approve
+
+    eksctl  get iamserviceaccount --cluster eksdemo1
+    kubectl get sa aws-load-balancer-controller -n kube-system
+
+5.  Helm install aws-load-balancer-controller  (https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html --> for more information)
+
+    helm repo add eks https://aws.github.io/eks-charts
+    helm repo update
+    helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+        -n kube-system \
+        --set clusterName=eksdemo1 \
+        --set serviceAccount.create=false \
+        --set serviceAccount.name=aws-load-balancer-controller \
+        --set region=ap-southeast-1 \
+        --set vpcId=vpc-0617555937d07cc7e \
+        --set image.repository=602401143452.dkr.ecr.ap-southeast-1.amazonaws.com/amazon/aws-load-balancer-controller
+    
+    helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=eksdemo1 --set serviceAccount.create=false --set region=ap-southeast-1 --set vpcId=vpc-054c89310c9ce16df --set image.repository=602401143452.dkr.ecr.ap-southeast-1.amazonaws.com/amazon/aws-load-balancer-controller
+
+7.  Review IngressClass Kubernetes Manifest and run for aws loadbalancer
+    01-ingressclass-resource --> Run this using kubectl
+    
+8.  create external-dns iamserviceaccount
+    
+    eksctl create iamserviceaccount \
+        --name external-dns \
+        --namespace default \
+        --cluster eksdemo1 \
+        --attach-policy-arn arn:aws:iam::701162217244:policy/AllowExternalDNSUpdates \
+        --approve \
+        --override-existing-serviceaccounts
+
+    eksctl create iamserviceaccount --name external-dns --namespace default --cluster eksdemo1 --attach-policy-arn arn:aws:iam::701162217244:policy/AllowExternalDNSUpdates --approve --override-existing-serviceaccounts
+
+9.  deploy external dns manifest (https://github.com/kubernetes-sigs/external-dns/releases/tag/v0.10.2 --> for more info)
+
+    01-Deploy-ExternalDNS.yml --> Run this using kubectl
