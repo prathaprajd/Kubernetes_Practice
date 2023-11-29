@@ -1,5 +1,5 @@
 # Annotations Reference:  https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: eks-devops-ingress-service
@@ -7,7 +7,7 @@ metadata:
     app: eks-devops
   annotations:
     # Ingress Core Settings  
-    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/load-balancer-name: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
     # Health Check Settings
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTP 
@@ -26,16 +26,15 @@ metadata:
     # External DNS - For creating a Record Set in Route53
     external-dns.alpha.kubernetes.io/hostname: devops.prathapsite.live      
 spec:
+  ingressClassName: my-aws-ingress-class
   rules:
     - http:
-        paths:
-          - path: /* # SSL Redirect Setting
+        paths:          
+          - path: /
+            pathType: Prefix
             backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation            
-          - path: /*
-            backend:
-              serviceName: eks-devops-nodeport-service
-              servicePort: 80                                   
+              service:
+                name: eks-devops-nodeport-service
+                port: 
+                  number: 80                                   
 # Important Note-1: In path based routing order is very important, if we are going to use  "/*", try to use it at the end of all rules.         
-
