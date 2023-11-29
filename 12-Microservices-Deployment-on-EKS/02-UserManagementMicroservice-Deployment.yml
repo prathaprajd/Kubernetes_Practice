@@ -34,7 +34,7 @@ spec:
               value: "dbadmin"
             - name: DB_PASSWORD
               valueFrom:
-                secrectKeyRef:
+                secretKeyRef:
                   name: mysql-db-password
                   key: db-password
             - name: NOTIFICATION_SERVICE_HOST

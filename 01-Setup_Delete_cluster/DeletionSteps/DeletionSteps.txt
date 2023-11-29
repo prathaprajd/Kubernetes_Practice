@@ -2,8 +2,9 @@
 2. eksctl delete iamserviceaccount --name external-dns --namespace default --cluster eksdemo1
 3. 01-ingressclass-resource --> Delete this using kubectl
 4. helm uninstall aws-load-balancer-controller -n kube-system
-5. ekctl delete iamserviceaccount --cluster=eksdemo1 --namespace=kube-system --name=aws-load-balancer-controller
+5. eksctl delete iamserviceaccount --cluster=eksdemo1 --namespace=kube-system --name=aws-load-balancer-controller
 6. kubectl delete -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
-7. eksctl delete nodegroup --name=eksdemo1-ng-public1 --cluster=eksdemo1
-8. eksctl delete nodegroup --name=eksdemo1-ng-private1 --cluster=eksdemo1
-9. eksctl delete cluster --name=eksdemo1
+7. eksctl delete iamserviceaccount --name xray-daemon  --cluster=eksdemo
+8. eksctl delete nodegroup --name=eksdemo1-ng-public1 --cluster=eksdemo1
+9. eksctl delete nodegroup --name=eksdemo1-ng-private1 --cluster=eksdemo1
+10. eksctl delete cluster --name=eksdemo1

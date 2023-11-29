@@ -1,0 +1,75 @@
+Name:             usermgmt-microservice-78f5786db8-std72
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-74-182.ap-southeast-1.compute.internal/192.168.74.182
+Start Time:       Wed, 29 Nov 2023 12:55:40 +0530
+Labels:           app=usermgmt-restapp
+                  pod-template-hash=78f5786db8
+Annotations:      <none>
+Status:           Pending
+IP:               192.168.88.222
+IPs:
+  IP:           192.168.88.222
+Controlled By:  ReplicaSet/usermgmt-microservice-78f5786db8
+Init Containers:
+  init-db:
+    Container ID:  containerd://de9224cdda9d7a7b0530f7dfe36822f70b4c40553e3938729ac24e42a695d55d
+    Image:         busybox:1.31
+    Image ID:      docker.io/library/busybox@sha256:95cf004f559831017cdf4628aaf1bb30133677be8702a8c5f2994629f637a209
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";
+    State:          Running
+      Started:      Wed, 29 Nov 2023 12:55:41 +0530
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zvbzh (ro)
+Containers:
+  usermgmt-restapp:
+    Container ID:
+    Image:          stacksimplify/kube-usermanagement-microservice:3.0.0-AWS-XRay-MySQLDB
+    Image ID:
+    Port:           8095/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       PodInitializing
+    Ready:          False
+    Restart Count:  0
+    Liveness:       exec [/bin/sh -c nc -z localhost 8095] delay=60s timeout=1s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:8095/usermgmt/health-status delay=60s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      DB_HOSTNAME:                mysql
+      DB_PORT:                    3306
+      DB_NAME:                    usermgmt
+      DB_USERNAME:                dbadmin
+      DB_PASSWORD:                <set to the key 'db-password' in secret 'mysql-db-password'>  Optional: false
+      NOTIFICATION_SERVICE_HOST:  notification-clusterip-service
+      NOTIFICATION_SERVICE_PORT:  8096
+      AWS_XRAY_TRACING_NAME:      User-Management-Microservice
+      AWS_XRAY_DAEMON_ADDRESS:    xray-service.default:2000
+      AWS_XRAY_CONTEXT_MISSING:   LOG_ERROR
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zvbzh (ro)
+Conditions:
+  Type              Status
+  Initialized       False
+  Ready             False
+  ContainersReady   False
+  PodScheduled      True
+Volumes:
+  kube-api-access-zvbzh:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
