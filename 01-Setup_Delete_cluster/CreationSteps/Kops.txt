@@ -1,0 +1,11 @@
+kops create cluster --name=prathapsite.live --state=s3://prathapsite.live --zones=ap-southeast-1a,ap-southeast-1b,ap-southeast-1c --node-count=1 --control-plane-count=1 --node-size=t3.micro --control-plane-zones=ap-southeast-1a,ap-southeast-1b,ap-southeast-1c --control-plane-volume-size 10 --node-volume-size 10 --dns-zone=prathapsite.live --yes
+kops create cluster --name=prathapsite.live --state=s3://prathapsite.live --zones=ap-southeast-1a --node-count=1 --control-plane-count=1 --node-size=t3.micro --control-plane-zones=ap-southeast-1b --control-plane-volume-size 10 --node-volume-size 10 --dns-zone=prathapsite.live --yes
+
+    (error --> Flag --master-count has been deprecated, use --control-plane-count instead
+    Flag --master-zones has been deprecated, use --control-plane-zones instead
+    Flag --master-volume-size has been deprecated, use --control-plane-volume-size instead)
+
+kops delete cluster --name=prathapsite.live --zones=ap-southeast-1a,ap-southeast-1b,ap-southeast-1c --node-count=3 --master-count=3 --node-size=t3.small --master-zones=ap-southeast-1a,ap-southeast-1b,ap-southeast-1c
+
+kops get ig
+kops edit ig nodename
