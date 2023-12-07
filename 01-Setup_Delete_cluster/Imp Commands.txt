@@ -1,0 +1,46 @@
+kubectl get events --> to know about event happening while creating the depolyments
+
+kubectl api-resources
+kubectl api-resources --namespaced=true (true - namespace roles and false - cluster roles)
+kubectl cluster-info
+kubectl config set-context --current --namespace=kube-system
+kubectl expose pod pod1 --port=8080 --target-port=80 --type=NodePort
+watch kubectl get nodes
+kubectl port-forward pod/pod1 8000:80
+
+echo 'yaml file content' | kubectl apply -f -
+
+kubectl set image deployment nginx-deployment rollingupdate=image/rollingupdate --record
+kubectl rollout history deployment nginx-deployment
+kubectl rollout undo deployment nginx-deployment --to-revision 1
+
+kubectl expose deployment nginx --name nginxsvc --port=80 --target-port=80
+kubectl expose deployment nginx --name nginxsvc --port=80 --target-port=80 --type=NodePort
+kubectl expose deployment nginx --name nginxsvc --port=80 --target-port=80 --type=LoadBalancer --dry-run -o yaml
+kubectl run utils --image=imagename
+kubectl exec it utils -- bash
+
+for Deployment 
+maxsurge and maxunaviable
+
+/etc/kubernetes/manifest
+
+Eksctl work on another computer
+ aws eks update-kubeconfig --name eksdemo1 --region ap-southeast-1
+ eksctl utils write-kubeconfig --cluster=
+ 
+
+generating self signed certificate
+
+openssl genrsa -out prathapsite.key 2048
+openssl rsa -in prathapsite.key -pubout -out prathapsite_pub.key
+openssl req -new -key prathapsite.key -out prathapsite.csr
+openssl x509 -in prathapsite.csr -out prathapsite.crt -req -signkey prathapsite.key -days 365
+
+sudo snap install --classic certbot
+cd /snap/bin
+cp certbot /usr/local/bin
+./certbot -h
+./certbot certonly --manual --preferred-challenges=dns --email krishnamurty1947@gmail.com --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.timibanianu.xyz
+
+kubectl create secret tls nginx0-tls-default --key='tls.key' --cert="tls.cert"
