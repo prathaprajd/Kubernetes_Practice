@@ -1,0 +1,102 @@
+kops create cluster --name=timibanianu.xyz \
+--state=s3://timibanianu.xyz --zones=us-east-1a,us-east-1b,us-east-1c \
+--node-count=3 --node-size=t3.medium --master-size=t3.medium \
+--master-zones=us-east-1a,us-east-1b,us-east-1c --master-volume-size 10 --node-volume-size 10 \
+--dns-zone=timibanianu.xyz --yes
+
+====================================
+
+kubectl config set-context --current --namespace=kube-system
+
+========================================
+
+export NAME=timibanianu.xyz
+export KOPS_STATE_STORE=s3://timibanianu.xyz
+export AWS_REGION=us-east-1
+export CLUSTER_NAME=timibanianu.xyz
+export EDITOR='/usr/bin/vi'
+
+====================================
+
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+echo 'alias ku=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl ku' >>~/.bashrc
+
+====================================
+
+ku run testpod1 --image=nginx:latest
+ku get pods
+ku describe pod
+ku describe pod testpod1
+ku logs testpod1
+ku delete pod --all
+
+=======================================
+
+ku run utils --image=sreeharshav/utils:latest
+$ENV:KUBECONFIG = "C:\Users\Venkata Sharma\Downloads\config.yml"
+
+========================
+
+ku exec -it utils -- bash
+
+===============================
+
+kops export kubecfg --admin  (to activate cluster after stop)
+
+================================
+
+root@ip-10-10-1-69:~# echo 'apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: testpod1
+  name: testpod1
+spec:
+  containers:
+  - image: sreeharshav/testcontainer:v1
+    name: testpod1
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "100m"
+      limits:
+        memory: "200Mi"
+        cpu: "300m"' | ku apply -f -
+pod/testpod1 created
+
+==================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cycle
+  name: cycle
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cycle
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cycle
+    spec:
+      containers:
+      - image: sreeharshav/testcontainer:v1
+        name: testcontainer
+        resources:
+          requests:
+            memory: "600Mi"
+            cpu: "500m"
+          limits:
+            memory: "1000Mi"
+            cpu: "1000m"
+
+
+
+
+
+

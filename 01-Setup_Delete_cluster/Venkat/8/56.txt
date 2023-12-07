@@ -1,0 +1,66 @@
+root@ip-10-10-1-224:~# echo 'apiVersion: v1
+> kind: Service
+> metadata:
+>   name: mysql
+>   labels:
+>     app: mysql
+> spec:
+>   ports:
+>   - port: 3306
+>   clusterIP: None
+>   selector:
+>     app: mysql
+>
+> ---
+> apiVersion: apps/v1
+> kind: StatefulSet
+> metadata:
+>   name: mysql-set
+> spec:
+>   selector:
+>     matchLabels:
+>       app: mysql
+>   serviceName: "mysql"
+>   replicas: 3
+>   template:
+>     metadata:
+>       labels:
+>         app: mysql
+>     spec:
+>       terminationGracePeriodSeconds: 10
+>       containers:
+>       - name: mysql
+>         image: mysql:5.7
+>         ports:
+>         - containerPort: 3306
+>         volumeMounts:
+>         - name: mysql-store
+>           mountPath: /var/lib/mysql
+>         env:
+>           - name: MYSQL_ROOT_PASSWORD
+>             value: "India@123456"
+>   volumeClaimTemplates:
+>   - metadata:
+>       name: mysql-store
+>     spec:
+>       accessModes: ["ReadWriteOnce"]
+>       storageClassName: "aws-efs"
+>       resources:
+>         requests:
+>           storage: 5Gi' | ku apply -f -
+service/mysql created
+statefulset.apps/mysql-set created
+root@ip-10-10-1-224:~# ku get pods
+NAME                              READY   STATUS              RESTARTS   AGE
+efs-provisioner-8b56b6bdc-wq5gd   1/1     Running             0          143m
+mysql-set-0                       1/1     Running             0          5s
+mysql-set-1                       0/1     ContainerCreating   0          2s
+utils                             1/1     Running             0          63m
+root@ip-10-10-1-224:~# ku get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+efs-provisioner-8b56b6bdc-wq5gd   1/1     Running   0          144m
+mysql-set-0                       1/1     Running   0          19s
+mysql-set-1                       1/1     Running   0          16s
+mysql-set-2                       1/1     Running   0          13s
+utils                             1/1     Running   0          63m
+root@ip-10-10-1-224:~#

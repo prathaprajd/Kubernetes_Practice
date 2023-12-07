@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp1
+    owner: enggteam
+  name: myapp1
+  annotations: 
+    star: "Leo"
+    company: "ATOS Syntel"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp1
+      owner: enggteam
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: myapp1
+        owner: enggteam
+    spec:
+      containers:
+      - image: sreeharshav/rollingupdate:v5
+        name: rollingupdate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: myapp1
+    owner: enggteam
+  name: myapp1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: myapp1
+    owner: enggteam
+  type: NodePort
+
+        

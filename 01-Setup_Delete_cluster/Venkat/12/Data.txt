@@ -1,0 +1,16 @@
+oidc  ====   open ID connect
+
+nodegroup is collection of nodes.
+
+number of nodes we can increase from portal.
+
+We can not increase volume size and node-type after create node group.
+
+kubectl config view
+
+eksctl create cluster --ssh-access --ssh-public-key=~/.ssh/id_rsa.pub --nodegroup-name=standard-workers --node-type=t3.medium --nodes=2 --nodes-min=1 --nodes-max=2
+
+Application will not effect while upgrade eksctl version in AWS.
+Application will effect while upgrade nodegroup in eksctl of AWS.
+
+while upgrading nodegroup old node will be removed and new node will create.

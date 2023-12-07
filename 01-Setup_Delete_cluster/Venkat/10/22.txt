@@ -1,0 +1,58 @@
+Secret is namespace specific.
+
+root@ip-10-10-1-224:~# ku get secrets
+NAME                  TYPE                                  DATA   AGE
+accesskey             Opaque                                1      118m
+aws-access-keys       Opaque                                2      48m
+aws-creds-in-file     Opaque                                1      133m
+default-token-bvr98   kubernetes.io/service-account-token   3      3h27m
+secretkey             Opaque                                1      118m
+root@ip-10-10-1-224:~# kubens
+default
+kube-node-lease
+kube-public
+kube-system
+root@ip-10-10-1-224:~# kubens kube-system
+✔ Active namespace is "kube-system"
+root@ip-10-10-1-224:~# ku get secrets
+NAME                                             TYPE                                  DATA   AGE
+attachdetach-controller-token-g7jnz              kubernetes.io/service-account-token   3      3h27m
+aws-cloud-provider-token-zmtpg                   kubernetes.io/service-account-token   3      3h27m
+certificate-controller-token-pl48j               kubernetes.io/service-account-token   3      3h27m
+clusterrole-aggregation-controller-token-dswlg   kubernetes.io/service-account-token   3      3h27m
+coredns-autoscaler-token-csp7q                   kubernetes.io/service-account-token   3      3h27m
+coredns-token-p6xn2                              kubernetes.io/service-account-token   3      3h27m
+cronjob-controller-token-nt4gv                   kubernetes.io/service-account-token   3      3h27m
+daemon-set-controller-token-5fnx7                kubernetes.io/service-account-token   3      3h27m
+default-token-d7zh4                              kubernetes.io/service-account-token   3      3h27m
+deployment-controller-token-k7ppp                kubernetes.io/service-account-token   3      3h27m
+disruption-controller-token-hjkms                kubernetes.io/service-account-token   3      3h27m
+dns-controller-token-25bls                       kubernetes.io/service-account-token   3      3h27m
+endpoint-controller-token-zjqcn                  kubernetes.io/service-account-token   3      3h27m
+endpointslice-controller-token-vbbxd             kubernetes.io/service-account-token   3      3h27m
+endpointslicemirroring-controller-token-hzpbf    kubernetes.io/service-account-token   3      3h27m
+ephemeral-volume-controller-token-vlkx8          kubernetes.io/service-account-token   3      3h27m
+expand-controller-token-xtcxk                    kubernetes.io/service-account-token   3      3h27m
+generic-garbage-collector-token-ppcqz            kubernetes.io/service-account-token   3      3h27m
+horizontal-pod-autoscaler-token-l5x54            kubernetes.io/service-account-token   3      3h27m
+job-controller-token-s98pq                       kubernetes.io/service-account-token   3      3h27m
+kops-controller-token-jcrcw                      kubernetes.io/service-account-token   3      3h27m
+kube-dns-token-mzrgs                             kubernetes.io/service-account-token   3      3h27m
+kube-proxy-token-44z4t                           kubernetes.io/service-account-token   3      3h27m
+namespace-controller-token-wvhp9                 kubernetes.io/service-account-token   3      3h27m
+node-controller-token-ctkbp                      kubernetes.io/service-account-token   3      3h27m
+persistent-volume-binder-token-cfv7f             kubernetes.io/service-account-token   3      3h27m
+pod-garbage-collector-token-2ddh6                kubernetes.io/service-account-token   3      3h27m
+pv-protection-controller-token-xqmf9             kubernetes.io/service-account-token   3      3h27m
+pvc-protection-controller-token-jhzhx            kubernetes.io/service-account-token   3      3h27m
+replicaset-controller-token-lwc55                kubernetes.io/service-account-token   3      3h27m
+replication-controller-token-6xbf9               kubernetes.io/service-account-token   3      3h27m
+resourcequota-controller-token-rs2hp             kubernetes.io/service-account-token   3      3h27m
+root-ca-cert-publisher-token-hkbrx               kubernetes.io/service-account-token   3      3h27m
+route-controller-token-ffnl4                     kubernetes.io/service-account-token   3      3h27m
+service-account-controller-token-gnqw5           kubernetes.io/service-account-token   3      3h27m
+service-controller-token-8zbv9                   kubernetes.io/service-account-token   3      3h27m
+statefulset-controller-token-js52x               kubernetes.io/service-account-token   3      3h27m
+ttl-after-finished-controller-token-r6lr5        kubernetes.io/service-account-token   3      3h27m
+ttl-controller-token-bhbgb                       kubernetes.io/service-account-token   3      3h27m
+root@ip-10-10-1-224:~#

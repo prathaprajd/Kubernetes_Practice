@@ -1,0 +1,84 @@
+. AWS Account.
+2. Create VPC & Deploy t2.micro Ubuntu Instance/Server for Management.
+3. Create AWS S3 Bucket - k8sb04kopsbucket
+4. Domain Name (Can be purchased from Godaddy) - teluguk8s.xyz
+5. Create AWS Route53 Zone using the domain from step 4.
+6. Create a AWS User with Access Key & Secret Key or assign role.
+7. Login to Mgmt Server, sudo to root & Generate SSH-Keys.
+8. Create a folder called .aws under home and create credetails file. Add
+   AWS Access and Secret Key in the credentails file.
+9. Download kops binary to Mgmt Server & provide execution permissions.
+10. Download kubectl binary to Mgmt Server & provide execution permissions.
+11. Deploy Kubernetes Server with KOPS.
+
+export NAME=timibanianu.xyz
+export KOPS_STATE_STORE=s3://timibanianu.xyz
+export AWS_REGION=us-east-1
+export CLUSTER_NAME=timibanianu.xyz
+export EDITOR='/usr/bin/vi'
+#export K8S_VERSION=1.6.4
+
+Multi-Master Dry-run:
+kops create cluster --name=timibanianu.xyz --state=s3://timibanianu.xyz --zones=us-east-1a,us-east-1b,us-east-1c --node-count=3 --master-count=3 --node-size=t2.small --master-size=t2.small --master-zones=us-east-1a,us-east-1b,us-east-1c --master-volume-size 10 --node-volume-size 10 --dns-zone=timibanianu.xyz --dry-run --output yaml
+
+
+
+
+Multi-Master Deploy:
+kops create cluster --name=timibanianu.xyz --state=s3://timibanianu.xyz --zones=us-east-1a,us-east-1b,us-east-1c --node-count=3 --master-count=3 --node-size=t2.small --master-size=t2.small --master-zones=us-east-1a,us-east-1b,us-east-1c --master-volume-size 10 --node-volume-size 10 --dns-zone=timibanianu.xyz --yes
+
+
+kops create cluster --name=devopsk8s.xyz --state=s3://devopsk8s.xyz --zones=us-east-1a --node-count=2 --node-size=t2.micro --master-size=t2.small --master-volume-size 20 --node-volume-size 10 --dns-zone=devopsk8s.xyz --yes
+
+kops create cluster --name=trainingk8s.xyz \
+--state=s3://sreek8s --zones=us-east-1a,us-east-1b,us-east-1c \
+--node-count=2 --node-size=t3.medium --master-size=t3.medium \
+--master-volume-size 10 --node-volume-size 10 \
+--dns-zone=trainingk8s.xyz --yes
+
+kops create cluster --name=trainingk8s.xyz \
+--state=s3://sreek8s --zones=us-east-1a,us-east-1b,us-east-1c \
+--node-count=3 --node-size=t3.medium --master-size=t3.medium \
+--master-volume-size 10 --node-volume-size 10 \
+--dns-zone=trainingk8s.xyz --yes
+
+Kubectl bash completion:
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+echo 'alias ku=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl ku' >>~/.bashrc
+
+kops get cluster --state s3://devopsk8s.xyz
+kops get ig --name devopsk8s.xyz --state s3://devopsk8s.xyz
+kops edit ig --name=devopsk8s.xyz master-us-east-1a --state s3://devopsk8s.xyz
+kops edit ig --name=devopsk8s.xyz nodes --state s3://devopsk8s.xyz
+kops update cluster --name devopsk8s.xyz --yes --state  s3://devopsk8s.xyz
+kops rolling-update cluster  --name devopsk8s.xyz --yes --state  s3://devopsk8s.xyz
+kops delete cluster --name=devopsk8s.xyz --state s3://devopsk8s.xyz --yes
+
+Cluster Smoke Testing:
+kubectl version --short
+kubectl get nodes
+kubectl get nodes --no-headers
+kubectl cluster-info
+kubectl cluster-info dump
+kubectl get ns
+kubectl get pods
+kubectl get pods -n kube-system
+ku describe pod kube-apiserver-ip-172-20-114-198.ec2.internal -n kube-system
+ku logs kube-apiserver-ip-172-20-114-198.ec2.internal -c  kube-apiserver -n kube-system
+kubectl get service -A
+
+kubectl run pod01 --image=sreeharshav/rollingupdate:v5
+kubectl expose pod pod01 --port=8000 --target-port=80 --type=NodePort
+kubectl get pods -o wide
+kubectl get pods -o wide --no-headers
+kubectl create deployment deploy01 --image=sreeharshav/rollingupdate:v5 --dry-run -o yaml
+kubectl create deployment deploy01 --image=sreeharshav/rollingupdate:v5 --replicas 3
+kubectl scale deployment deploy01 --replicas=6
+ku cordon ip-172-20-103-135.ec2.internal
+ku drain ip-172-20-103-135.ec2.internal
+ku drain  ip-172-20-38-30.ec2.internal
+ku uncordon ip-172-20-103-135.ec2.internal
+ku uncordon ip-172-20-38-30.ec2.internal
+
+Delete a master server and run the kubectl get nodes to check the connectivity and KOPS will deploy a new cluster.

@@ -1,0 +1,13 @@
+kube-system namespace is all management are running.
+
+kubelet does not run as container or pod,  it works as a service or daemon.
+kube-proxy,api server,controller,scheduler,controller-manager runs as a container.
+
+installation through command line is imperative.
+installation through yaml is decleartive as shown in image 60.
+
+kuberneets deployment distribute load across all nodes.
+
+kubs-controller monitor whether node or master running or teminated. if terminated new node or master will be created.
+
+kops working good in AWS but not in Azure.

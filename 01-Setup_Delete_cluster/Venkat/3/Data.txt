@@ -1,0 +1,34 @@
+POD is the low level component in kubernetes.
+POD is a wrapper which can contain multipl containers and volumes.
+
+Normally we have use service to access pod.
+But using kubectl port forward we can access pod without service.
+Recommened to use kubectl port forward in develop not in production.
+kubectl port forward can be used with pod,deployment and service.
+
+kubectl port-forward pod/mongo-db-r3pl1ka3 8080 5762
+kubectl port-forward deployment/mydeployment 8080 5762
+kubectl port-forward service/myservice 8080 5762
+
+without any service we can use kubeconfig file to test.(it may be a interview question).
+One pod can not be shared with multiple nodes.
+
+if u put yaml file in manifest,  pod will be created automatically without any API.
+if u delete pod, pod will again create as file is in manifest folder.
+
+replicationcontroller name changed to replicaset.
+
+replicaset will run a loop at every second to check the number of replicas.
+
+labels are most important in kubernetes and replicaset.
+replicaset will not update image automatically. We have to delete the pod and create again then only image will be updated.
+
+
+deployment create replicaset automatically.
+deployment we are using in the time of deploying applications such as jave base application, python based applications.
+
+kubectl rollout undo deployment myapp undo means going to previous state.
+
+no maxunavailabe means 25%.
+
+without api server we can install pod, this is called static pod

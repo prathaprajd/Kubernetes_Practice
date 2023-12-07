@@ -1,0 +1,63 @@
+root@ip-10-10-1-224:~# ku describe pod mongo-deployment-9489df459-6tk7k
+Name:         mongo-deployment-9489df459-6tk7k
+Namespace:    default
+Priority:     0
+Node:         ip-172-20-43-245.ec2.internal/172.20.43.245
+Start Time:   Wed, 21 Sep 2022 03:48:18 +0000
+Labels:       app=mongodb
+              name=mongodb
+              pod-template-hash=9489df459
+Annotations:  kubernetes.io/limit-ranger: LimitRanger plugin set: cpu request for container mongodb
+Status:       Running
+IP:           100.96.3.10
+IPs:
+  IP:           100.96.3.10
+Controlled By:  ReplicaSet/mongo-deployment-9489df459
+Containers:
+  mongodb:
+    Container ID:   containerd://52de80dac3dea25fe025a9275be46581b990e70bec70c728dcf9d73a9247a969
+    Image:          mongo
+    Image ID:       docker.io/library/mongo@sha256:59448b028874b9ce3150cc692a3f85e8beed92cb8dc9479bdc3fd453b70e1fb1
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Wed, 21 Sep 2022 03:48:36 +0000
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:        100m
+    Environment:  <none>
+    Mounts:
+      /data/db from mongodb-data1 (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fm2qt (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  mongodb-data1:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  task-pv-claim1
+    ReadOnly:   false
+  kube-api-access-fm2qt:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              kubernetes.io/hostname=ip-172-20-43-245.ec2.internal
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason                  Age    From                     Message
+  ----    ------                  ----   ----                     -------
+  Normal  Scheduled               5m58s  default-scheduler        Successfully assigned default/mongo-deployment-9489df459-6tk7k to ip-172-20-43-245.ec2.internal
+  Normal  SuccessfulAttachVolume  5m49s  attachdetach-controller  AttachVolume.Attach succeeded for volume "aws-pv1"
+  Normal  Pulling                 5m41s  kubelet                  Pulling image "mongo"
+  Normal  Pulled                  5m40s  kubelet                  Successfully pulled image "mongo" in 141.007741ms
+  Normal  Created                 5m40s  kubelet                  Created container mongodb
+  Normal  Started                 5m40s  kubelet                  Started container mongodb
+

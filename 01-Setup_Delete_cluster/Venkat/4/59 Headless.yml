@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx001
+  name: nginx001
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx001
+  template:
+    metadata:
+      labels:
+        app: nginx001
+    spec:
+      containers:
+      - image: sreeharshav/rollingupdate:v5
+        name: rollingupdate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx001
+  name: nginx001-headless
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  clusterIP: None 
+  selector:
+    app: nginx001
+
+===
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx001
+  name: nginx001
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx001
+

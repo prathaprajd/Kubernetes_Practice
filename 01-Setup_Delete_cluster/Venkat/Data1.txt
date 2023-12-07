@@ -1,0 +1,16 @@
+Container is a process.
+Docker is a company, takeover by mirantis.
+
+kublet is a daemon service which will contacted API server continueosly for any update.
+kube-proxy will proxy the incoming traffic.
+kube-proxy is basically geeting the outside request and sending appropriate services.
+
+KOPS is kuberneets opeartion.
+KOPs is tool and using for creating kuberneets cluster.
+kubectl is to manage cluster.
+
+export NAME=timibanianu.xyz
+export KOPS_STATE_STORE=s3://timibanianu.xyz
+export AWS_REGION=us-east-1
+export CLUSTER_NAME=timibanianu.xyz
+export EDITOR='/usr/bin/vi'

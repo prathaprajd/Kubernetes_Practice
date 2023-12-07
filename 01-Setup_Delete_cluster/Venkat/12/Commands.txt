@@ -1,0 +1,82 @@
+eksctl create cluster \
+--name "Demo-cluster" \
+--version 1.21 \
+--zones=us-east-1a,us-east-1b,us-east-1c \
+--without-nodegroup
+
+eksctl utils associate-iam-oidc-provider \
+	--region us-east-1 \
+	--cluster Demo-cluster \
+	--approve
+
+eksctl create nodegroup --cluster=Demo-cluster \
+                   	--region=us-east-1 \
+                   	--name=javaapp-ng \
+                   	--node-type=t2.small \
+                   	--nodes=1 \
+                   	--nodes-min=1 \
+                   	--nodes-max=4 \
+                   	--node-volume-size=20 \
+                   	--ssh-access \
+                   	--ssh-public-key=~/.ssh/id_rsa.pub \
+                   	--managed \
+                   	--asg-access \
+                   	--external-dns-access \
+                   	--full-ecr-access \
+                   	--appmesh-access \
+                   	--alb-ingress-access
+
+eksctl create nodegroup --cluster=Demo-cluster \
+                   	--region=us-east-1 \
+                   	--name=nodejsapp-ng \
+                   	--node-type=t2.small \
+                   	--nodes=1 \
+                   	--nodes-min=1 \
+                   	--nodes-max=4 \
+                   	--node-volume-size=20 \
+                   	--ssh-access \
+                   	--ssh-public-key=~/.ssh/id_rsa.pub \
+                   	--managed \
+                   	--asg-access \
+                   	--external-dns-access \
+                   	--full-ecr-access \
+                   	--appmesh-access \
+                   	--alb-ingress-access
+
+
+
+
+
+eksctl get cluster
+eksctl get nodegroup --cluster=Demo-cluster
+ku get no
+
+eksctl scale nodegroup --cluster=Demo-cluster --nodes=2 --name=nodejsapp-ng --nodes-min=2 --nodes-max=4
+
+root@ip-10-10-1-233:~# ku get no
+NAME                             STATUS   ROLES    AGE     VERSION
+ip-192-168-29-67.ec2.internal    Ready    <none>   17m     v1.21.14-eks-ba74326
+ip-192-168-32-21.ec2.internal    Ready    <none>   7m34s   v1.21.14-eks-ba74326
+ip-192-168-4-230.ec2.internal    Ready    <none>   24m     v1.21.14-eks-ba74326
+ip-192-168-72-118.ec2.internal   Ready    <none>   36m     v1.21.14-eks-ba74326
+root@ip-10-10-1-233:~# ku describe node ip-192-168-29-67.ec2.internal | grep -i linux
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/os=linux
+  OS Image:                   Amazon Linux 2
+  Operating System:           linux
+root@ip-10-10-1-233:~# kubectl label node ip-192-168-29-67.ec2.internal kubernetes.io/role=java-worker
+node/ip-192-168-29-67.ec2.internal labeled
+root@ip-10-10-1-233:~# kubectl label node ip-192-168-4-230.ec2.internal kubernetes.io/role=java-worker
+node/ip-192-168-4-230.ec2.internal labeled
+root@ip-10-10-1-233:~# kubectl label node ip-192-168-32-21.ec2.internal kubernetes.io/role=node-worker
+node/ip-192-168-32-21.ec2.internal labeled
+root@ip-10-10-1-233:~# kubectl label node ip-192-168-72-118.ec2.internal kubernetes.io/role=node-worker
+node/ip-192-168-72-118.ec2.internal labeled
+root@ip-10-10-1-233:~# ku get no
+NAME                             STATUS   ROLES         AGE     VERSION
+ip-192-168-29-67.ec2.internal    Ready    java-worker   19m     v1.21.14-eks-ba74326
+ip-192-168-32-21.ec2.internal    Ready    node-worker   9m23s   v1.21.14-eks-ba74326
+ip-192-168-4-230.ec2.internal    Ready    java-worker   26m     v1.21.14-eks-ba74326
+ip-192-168-72-118.ec2.internal   Ready    node-worker   38m     v1.21.14-eks-ba74326
+root@ip-10-10-1-233:~#
+

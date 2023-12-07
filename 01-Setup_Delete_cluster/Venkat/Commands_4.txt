@@ -1,0 +1,149 @@
+kops create cluster --name=timibanianu.xyz \
+--state=s3://timibanianu.xyz --zones=us-east-1a,us-east-1b,us-east-1c \
+--node-count=3 --node-size=t2.small --master-size=t2.small \
+--master-zones=us-east-1a --master-volume-size 10 --node-volume-size 10 \
+--dns-zone=timibanianu.xyz --yes
+
+=============================
+
+ku create deploy nginx001 --image=sreeharshav/rollingupdate:v5 --replicas 3 --dry-run -o yaml
+
+==================================
+
+ku run utile --image=sreeharshav/utils
+
+============================
+
+ku edit deployments.apps nginx001
+
+==========================
+
+ku get deploy
+
+=========================
+
+ku expose deployment nginx001 --port=80 --target-port=80 --dry-run -o yaml
+
+=========================
+
+ku get svc
+
+==================
+
+root@utile:/# while true
+> do
+> curl -sL http://nginx001 | grep -i "IP A"
+> sleep 1
+> done
+
+=========================
+
+ku describe svc
+
+=========================
+
+ku scale deployment --replicas=6 nginx001
+
+============================
+
+kuberneets is a internal loadbalancer
+
+=============================
+
+cluster IP is a default service.
+NodePort is also service.
+Generally NodePort service using for testing.
+
+===============================
+
+ku expose deployment nginx001 --name nginx-np --port 80 --target-port=80 --type=NodePort --dry-run -o yaml
+
+================================
+
+ku expose deployment nginx001 --name nginx-lb --port 80 --target-port=80 --type=LoadBalancer --dry-run -o yaml
+
+================================
+
+while true; do curl -sL http://www.timibanianu.xyz | grep -i "IP A"; sleep 1; done
+
+==============================
+
+we can create 50 LB in a region.  Limitation in AWS.
+
+===============
+
+Disadvantage of LB service is we have to create one LB for each deploy.
+so we have to use ingress controller and ingress resource.
+
+========================
+
+root@ip-172-20-53-75:~# sudo snap install --classic certbot
+certbot 1.29.0 from Certbot Project (certbot-eff✓) installed
+root@ip-172-20-53-75:~# cd /snap/bin/
+root@ip-172-20-53-75:/snap/bin# cp certbot /usr/local/bin/
+root@ip-172-20-53-75:/snap/bin# ./certbot -h
+
+=================
+
+./certbot certonly --manual --preferred-challenges=dns --email krishnamurty1947@gmail.com --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.timibanianu.xyz
+
+============================================
+
+root@ip-10-10-1-69:~# ku create deployment reddeploy --image=sreeharshav/testcontainer:v1 --replicas 3
+deployment.apps/reddeploy created
+root@ip-10-10-1-69:~# ku create deployment greendeploy --image=sreeharshav/rollingupdate:v1 --replicas 3
+deployment.apps/greendeploy created
+root@ip-10-10-1-69:~# ku create deployment bluedeploy --image=sreeharshav/rollingupdate:v5 --replicas 3
+deployment.apps/bluedeploy created
+root@ip-10-10-1-69:~# ku get deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+bluedeploy    3/3     3            3           99s
+greendeploy   3/3     3            3           2m14s
+reddeploy     3/3     3            3           2m58s
+root@ip-10-10-1-69:~# ku expose deployment bluedeploy --port=80 --target-port=80
+service/bluedeploy exposed
+root@ip-10-10-1-69:~# ku expose deployment greendeploy --port=80 --target-port=80
+service/greendeploy exposed
+root@ip-10-10-1-69:~# ku expose deployment reddeploy --port=80 --target-port=80
+service/reddeploy exposed
+root@ip-10-10-1-69:~# ku get deploy,svc
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/bluedeploy    3/3     3            3           3m54s
+deployment.apps/greendeploy   3/3     3            3           4m29s
+deployment.apps/reddeploy     3/3     3            3           5m13s
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/bluedeploy    ClusterIP   100.70.93.186   <none>        80/TCP    44s
+service/greendeploy   ClusterIP   100.70.70.196   <none>        80/TCP    34s
+service/kubernetes    ClusterIP   100.64.0.1      <none>        443/TCP   175m
+service/reddeploy     ClusterIP   100.66.50.39    <none>        80/TCP    27s
+root@ip-10-10-1-69:~#
+
+
+====================================
+
+ kubectl create secret tls nginx0-tls-default --key="tls.key" --cert="tls.crt"
+
+========================
+
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/aws/deploy.yaml
+
+==============================
+
+ingress controller can be used with multiple domains.
+
+================================
+
+nslookup a normal service we will get LB IP while nslookup to headless service we will get all pods support by headless service.
+This is required for stateful state and LB.
+
+===============================
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+generic means opaque.
+
+kubectl get secret aws-creds-cli -o json | jq '.data | map_values(@base64)'
+
+In interview tell i used helm from bitnami like kubernetes.
+not used complex helm charts.
+
+helm2 not used due to security reason.
+
+in helm3 there is no tiller pod.
+
+helm chart is like package manager.

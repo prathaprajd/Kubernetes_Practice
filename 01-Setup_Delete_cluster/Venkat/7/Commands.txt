@@ -1,0 +1,13 @@
+
+
+mounting local path of a node is called hostpath.
+
+
+
+using daemonSet we can run pod in each node at any condition.
+
+In a volume we can create 1 PV, not multiple pv can create in a PV.
+
+create pv and pvs automatically is called dynamic provisioning.
+
+ebs is for only 1 AZ. For multiple AZ we have to use EFS.

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp1
+    owner: javateam
+  name: myapp1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp1
+      owner: javateam
+  template:
+    metadata:
+      labels:
+        app: myapp1
+        owner: javateam
+    spec:
+      containers:
+      - image: sreeharshav/rollingupdate:v5
+        name: rollingupdate
+      tolerations:
+         - key: "perf"
+           operator: "Equal"
+           value: "high"
+           effect: "NoSchedule"

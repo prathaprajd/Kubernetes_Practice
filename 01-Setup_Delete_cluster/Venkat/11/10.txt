@@ -1,0 +1,158 @@
+root@ip-10-10-1-224:~# tree wordpress
+wordpress
+├── Chart.lock
+├── Chart.yaml
+├── README.md
+├── charts
+│   ├── common
+│   │   ├── Chart.yaml
+│   │   ├── README.md
+│   │   ├── templates
+│   │   │   ├── _affinities.tpl
+│   │   │   ├── _capabilities.tpl
+│   │   │   ├── _errors.tpl
+│   │   │   ├── _images.tpl
+│   │   │   ├── _ingress.tpl
+│   │   │   ├── _labels.tpl
+│   │   │   ├── _names.tpl
+│   │   │   ├── _secrets.tpl
+│   │   │   ├── _storage.tpl
+│   │   │   ├── _tplvalues.tpl
+│   │   │   ├── _utils.tpl
+│   │   │   ├── _warnings.tpl
+│   │   │   └── validations
+│   │   │       ├── _cassandra.tpl
+│   │   │       ├── _mariadb.tpl
+│   │   │       ├── _mongodb.tpl
+│   │   │       ├── _mysql.tpl
+│   │   │       ├── _postgresql.tpl
+│   │   │       ├── _redis.tpl
+│   │   │       └── _validations.tpl
+│   │   └── values.yaml
+│   ├── mariadb
+│   │   ├── Chart.lock
+│   │   ├── Chart.yaml
+│   │   ├── README.md
+│   │   ├── charts
+│   │   │   └── common
+│   │   │       ├── Chart.yaml
+│   │   │       ├── README.md
+│   │   │       ├── templates
+│   │   │       │   ├── _affinities.tpl
+│   │   │       │   ├── _capabilities.tpl
+│   │   │       │   ├── _errors.tpl
+│   │   │       │   ├── _images.tpl
+│   │   │       │   ├── _ingress.tpl
+│   │   │       │   ├── _labels.tpl
+│   │   │       │   ├── _names.tpl
+│   │   │       │   ├── _secrets.tpl
+│   │   │       │   ├── _storage.tpl
+│   │   │       │   ├── _tplvalues.tpl
+│   │   │       │   ├── _utils.tpl
+│   │   │       │   ├── _warnings.tpl
+│   │   │       │   └── validations
+│   │   │       │       ├── _cassandra.tpl
+│   │   │       │       ├── _mariadb.tpl
+│   │   │       │       ├── _mongodb.tpl
+│   │   │       │       ├── _mysql.tpl
+│   │   │       │       ├── _postgresql.tpl
+│   │   │       │       ├── _redis.tpl
+│   │   │       │       └── _validations.tpl
+│   │   │       └── values.yaml
+│   │   ├── templates
+│   │   │   ├── NOTES.txt
+│   │   │   ├── _helpers.tpl
+│   │   │   ├── extra-list.yaml
+│   │   │   ├── networkpolicy-egress.yaml
+│   │   │   ├── primary
+│   │   │   │   ├── configmap.yaml
+│   │   │   │   ├── initialization-configmap.yaml
+│   │   │   │   ├── networkpolicy-ingress.yaml
+│   │   │   │   ├── pdb.yaml
+│   │   │   │   ├── statefulset.yaml
+│   │   │   │   └── svc.yaml
+│   │   │   ├── prometheusrules.yaml
+│   │   │   ├── role.yaml
+│   │   │   ├── rolebinding.yaml
+│   │   │   ├── secondary
+│   │   │   │   ├── configmap.yaml
+│   │   │   │   ├── networkpolicy-ingress.yaml
+│   │   │   │   ├── pdb.yaml
+│   │   │   │   ├── statefulset.yaml
+│   │   │   │   └── svc.yaml
+│   │   │   ├── secrets.yaml
+│   │   │   ├── serviceaccount.yaml
+│   │   │   └── servicemonitor.yaml
+│   │   ├── values.schema.json
+│   │   └── values.yaml
+│   └── memcached
+│       ├── Chart.lock
+│       ├── Chart.yaml
+│       ├── README.md
+│       ├── charts
+│       │   └── common
+│       │       ├── Chart.yaml
+│       │       ├── README.md
+│       │       ├── templates
+│       │       │   ├── _affinities.tpl
+│       │       │   ├── _capabilities.tpl
+│       │       │   ├── _errors.tpl
+│       │       │   ├── _images.tpl
+│       │       │   ├── _ingress.tpl
+│       │       │   ├── _labels.tpl
+│       │       │   ├── _names.tpl
+│       │       │   ├── _secrets.tpl
+│       │       │   ├── _storage.tpl
+│       │       │   ├── _tplvalues.tpl
+│       │       │   ├── _utils.tpl
+│       │       │   ├── _warnings.tpl
+│       │       │   └── validations
+│       │       │       ├── _cassandra.tpl
+│       │       │       ├── _mariadb.tpl
+│       │       │       ├── _mongodb.tpl
+│       │       │       ├── _mysql.tpl
+│       │       │       ├── _postgresql.tpl
+│       │       │       ├── _redis.tpl
+│       │       │       └── _validations.tpl
+│       │       └── values.yaml
+│       ├── templates
+│       │   ├── NOTES.txt
+│       │   ├── _helpers.tpl
+│       │   ├── deployment.yaml
+│       │   ├── extra-list.yaml
+│       │   ├── hpa.yaml
+│       │   ├── metrics-svc.yaml
+│       │   ├── pdb.yaml
+│       │   ├── secrets.yaml
+│       │   ├── service.yaml
+│       │   ├── serviceaccount.yaml
+│       │   ├── servicemonitor.yaml
+│       │   └── statefulset.yaml
+│       └── values.yaml
+├── templates
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── config-secret.yaml
+│   ├── deployment.yaml
+│   ├── externaldb-secrets.yaml
+│   ├── extra-list.yaml
+│   ├── hpa.yaml
+│   ├── httpd-configmap.yaml
+│   ├── ingress.yaml
+│   ├── metrics-svc.yaml
+│   ├── networkpolicy-backend-ingress.yaml
+│   ├── networkpolicy-egress.yaml
+│   ├── networkpolicy-ingress.yaml
+│   ├── pdb.yaml
+│   ├── postinit-configmap.yaml
+│   ├── pvc.yaml
+│   ├── secrets.yaml
+│   ├── serviceaccount.yaml
+│   ├── servicemonitor.yaml
+│   ├── svc.yaml
+│   └── tls-secrets.yaml
+├── values.schema.json
+└── values.yaml
+
+19 directories, 134 files
+root@ip-10-10-1-224:~#

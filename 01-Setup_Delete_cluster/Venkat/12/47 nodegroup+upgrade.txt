@@ -1,0 +1,12 @@
+eksctl upgrade nodegroup \
+  --name=javaapp-ng \
+  --cluster=Demo-cluster \
+  --kubernetes-version=1.22
+
+eksctl upgrade nodegroup \
+  --name=nodejsapp-ng \
+  --cluster=Demo-cluster \
+  --kubernetes-version=1.22
+
+
+

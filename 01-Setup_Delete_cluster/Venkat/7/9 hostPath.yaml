@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-hostpath
+  labels:
+    app: redis
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: redis-container
+        image: redis
+        volumeMounts:
+            - mountPath: /test-mnt
+              name: test-vol
+      volumes:
+        - name: test-vol
+          hostPath:
+              path: /test-vol
+              type: Directory

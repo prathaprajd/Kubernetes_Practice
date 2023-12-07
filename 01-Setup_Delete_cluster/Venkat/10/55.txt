@@ -1,0 +1,45 @@
+root@ip-10-10-1-224:~# echo 'apiVersion: batch/v1beta1
+> kind: CronJob
+> metadata:
+>   name: crondbdump1
+> spec:
+>   schedule: "* * * * *"
+>   successfulJobsHistoryLimit: 7
+>   jobTemplate:
+>     spec:
+>       template:
+>         metadata:
+>           labels:
+>             parent: "crondumpifrs"
+>         spec:
+>           containers:
+>           - name: mysqldump1
+>             image: centos/mysql-57-centos7
+>             command: ["/bin/sh","-c",  "/opt/rh/rh-mysql57/root/usr/bin/mysqldump --single-transaction --routines -u $MYSQL_USER $MYSQL_DB -h $MYSQL_HOST | gzip > /tmp/dump`date '+%Y%m%d_%H%M%S'`.sql.gz"]
+>             env:
+>              - name: MYSQL_USER
+>                value: "root"
+>              - name: MYSQL_PWD
+>                value: "India@12345"
+>              - name: MYSQL_HOST
+>                value: "mysql1"
+               value: "myflixdb"
+>              - name: MYSQL_DB
+>                value: "myflixdb"
+>             volumeMounts:
+>                 - mountPath: /tmp
+>                   name: dbdumpsvol
+>                   subPath: mysqlbackupcron
+>           restartPolicy: Never
+          volumes:
+             - name: dbdumpsvol
+>           volumes:
+>              - name: dbdumpsvol
+               hostPath:
+                 path: /tmp/
+>                hostPath:
+>                  path: /tmp/
+          nodeName: ip-172-20-33-86.ec2.internal>           nodeName: ip-172-20-33-86.ec2.internal' | ku apply -f -
+Warning: batch/v1beta1 CronJob is deprecated in v1.21+, unavailable in v1.25+; use batch/v1 CronJob
+cronjob.batch/crondbdump1 created
+root@ip-10-10-1-224:~#

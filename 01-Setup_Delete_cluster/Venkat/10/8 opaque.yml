@@ -1,0 +1,42 @@
+# Declative method to create secrets
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-creds-in-file
+type: Opaque
+stringData:
+  credentials: |  # this symbol used in case of multiple lines
+    [default]
+    aws_access_key_id = AKIA3GKJ6FOW6SASQJ4N
+    aws_secret_access_key = 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
+
+# Imperative method to create to create secrets
+
+kubectl create secret generic aws-creds-cli \
+--from-literal=aws_access_key_id=AKIA3GKJ6FOW2UQIYRPV \
+--from-literal=aws_secret_access_key=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
+
+kubectl get secret aws-creds-cli -o json | jq '.data | map_values(@base64)'
+
+---------------------------------------------
+echo -n AKIA3GKJ6FOW2UQIYRPV | base64
+echo -n 7hsKP7kNLZL+TWXdsNiP3mc7aPAIsKJMknLy0ajQ | base64
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-access-keys
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: QUtJQTNHS0o2Rk9XMlVRSVlSUFY=
+  AWS_SECRET_ACCESS_KEY: N2hzS1A3a05MWkwrVFdYZHNOaVAzbWM3YVBBSXNLSk1rbkx5MGFqUQ==
+
+-----------------------------------------------------------------
+
+kubectl create secret generic accesskey --from-literal=AWS_ACCESS_KEY_ID=AKIA3GKJ6FOW2UQIYRPV
+kubectl create secret generic secretkey --from-literal=AWS_SECRET_ACCESS_KEY=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
+
+kubectl get secret accesskey --template={{.data.AWS_ACCESS_KEY_ID}} | base64 -d
+kubectl get secret secretkey --template={{.data.AWS_SECRET_ACCESS_KEY}} | base64 -d
+
